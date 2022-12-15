@@ -1,4 +1,5 @@
 import Head from "next/head";
+import PopularityCards from "../components/Cards/PopularityCards";
 import Header from "../components/Header/Header";
 import Filter from "../components/Utils/Filter";
 import Locality from "../components/Utils/Locality";
@@ -113,10 +114,34 @@ export default function Home() {
             />
           </svg>
 
-          <p className="text-xl">Plus de 500 logements disponnibles dans cette villes</p>
+          <p className="text-xl">
+            Plus de 500 logements disponnibles dans cette villes
+          </p>
         </div>
       </section>
-      <main></main>
+
+      {/* section 2 qui qffiche les cqrtes des logements les plus populaires et hebergements en fonction de la localité choisie*/}
+
+      <section className=" flex flex-col mt-10 p-4 bg-gray-200 px-4">
+        <div className="flex items-center justify-between px-4 mb-4">
+          <h2 className="text-3xl font-bold">Les plus populaires</h2>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8 font-bold"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
+            />
+          </svg>
+        </div>
+        <PopularityCards name={'Hôtel le soleil du matin'} prix={75} />
+      </section>
 
       <footer></footer>
     </div>
