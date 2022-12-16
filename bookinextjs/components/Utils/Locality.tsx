@@ -1,16 +1,57 @@
-import React from "react";
+import React, { useState, useEffect, useRef, use } from "react";
+import axios from 'axios'
+import { v4 as uuid_v4 } from "uuid";
 
 type Props = {};
 
 function Locality({}: Props) {
+
+  {/**regex pour match code postaux français */}
+  const postalCodeFr = /^(([0-8][0-9])|(9[0-5])|(2[ab]))[0-9]{3}$/ 
+
+  const input = useRef(null)
+  const cityInput = useRef(null)
+
+  const [city, setCity] = useState(null);
+  const [isFetching, setIsFetching] = useState(false)
+  const [result, setResult] = useState(null)
+  const [error, setError] = useState(null)
+
+
+  const fetchCity = (item) => {
+    const baseUrl = `https://geo.api.gouv.fr/communes?codePostal=${item}&format=geojson`
+    setIsFetching(true)
+    axios.get(baseUrl)
+   .then((res)=>{setResult(res.data)})
+   .catch((err)=> { console.log(err)})
+  }
+
+  const options = ()=>{
+    if(!postalCodeFr.test(city) || !result){
+      return(
+        <option value='nofetch'>--choisir une ville</option>
+      )
+    } else {
+      return(
+        result.features.map(item=>(<option key={uuid_v4()} value={`${item.properties.nom}`}>{item.properties.nom}</option>))
+      )
+    }
+    }
+
+  useEffect(() => {
+   postalCodeFr.test(city)? fetchCity(city): console.log('nono')
+  }, [city])
+  
+
   return (
-    <form method="POST" className="w-full flex items-center justify-center p-4">
-      <div className=" border-2 rounded-l-md bg-gray-200 p-3">
+    <form className="w-full flex items-center justify-center p-4" onSubmit={(e)=>e.preventDefault()} >
+      <div className=" border-2 rounded-l-md bg-gray-200 p-1 ">
+      
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-6 h-6  "
+          className="w-12 h-12  "
         >
           <path
             fillRule="evenodd"
@@ -19,13 +60,29 @@ function Locality({}: Props) {
           />
         </svg>
       </div>
-      <input type="text" placeholder="Marseille, France" className="flex-1 border-2 py-[10px] pl-6 font-bold text-xl max-w-[240px]" />
-      <button className=" bg-blue-600 border-2 border-blue-600 rounded-md p-3 -translate-x-1">
+
+      <div className={`${postalCodeFr.test(city) ? 'border-gray-200' : 'border-red-500'} flex-1 max-w-[500px] flex flex-col gap-2 justify-center items-center  border-y-2 `}>
+
+      <input
+        ref= {input}
+        list="city"
+        type="text"
+        placeholder={`Code postale, France`}
+        className='w-full flex items-center justify-center text-center'
+
+        onChange={()=>{setCity(input.current.value)}}
+      />
+      <select ref={cityInput} name="city" id="city" className="w-full">
+        <>{options()}</>
+      </select>
+      </div>
+
+      <button className=" bg-blue-600 border-2 border-blue-600 rounded-r-md p-1" type="submit" onClick={()=>{console.log(cityInput.current.value)}}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="w-6 h-6 text-white  "
+          className="w-12 h-12 text-white  "
         >
           <path
             fillRule="evenodd"
@@ -34,6 +91,7 @@ function Locality({}: Props) {
           />
         </svg>
       </button>
+      
     </form>
   );
 }

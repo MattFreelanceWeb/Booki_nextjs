@@ -1,15 +1,34 @@
 import React from "react";
 import { v4 as uuid_v4 } from "uuid";
 
+{
+  /** algo qui recupère une note comprise entre 0 et une note maximale défini à l'avance pour afficher un nombre d'etoiles pleine équivalent à la note et laissant le reste en étoile vide */
+}
+
 type Props = { rate: number };
 
 function Stars({ rate }: Props) {
-    if(rate>5){
-        rate=5
-    }
   const maxRate: number = 5;
+  const minRate: number = 0;
 
-  let emptyStars = maxRate - rate;
+  {
+    /**conditions pour vérifier si la note est bien comprise entre 0 et et la note maximale acceptée*/
+  }
+
+  if (rate > maxRate) {
+    rate = maxRate;
+  } else if (rate < minRate) {
+    rate = minRate;
+  }
+
+  {
+    /** initialisation du nombre d'étoiles vides */
+  }
+  const emptyStars = maxRate - rate;
+
+  {
+    /**fonction qui créé un tableau ayant un nombre d'item équivalent à la note et qui va retourner via un map des étoiles en SVG  */
+  }
 
   let arrayFilledStars = () => {
     const stars = [];
@@ -38,6 +57,10 @@ function Stars({ rate }: Props) {
       </>
     );
   };
+
+  {
+    /**fonction qui créé un tableau ayant un nombre d'item équivalent à la différence entre la note maximale et la note et qui va retourner via un map des étoiles en SVG  */
+  }
 
   let arrayEmptyStars = () => {
     const initialEmptyStars = [];
