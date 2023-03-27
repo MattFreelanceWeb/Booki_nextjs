@@ -26,7 +26,7 @@ export default function Home() {
         </p>
         <Locality />
         <h2 className="w-full text-xl font-bold px-4 ">Filtres</h2>
-        <div className="flex flex-wrap gap-4 ">
+        <div className="flex flex-wrap gap-y-4 w-full items-center justify-start">
           <Filter
             svg={
               <>
@@ -121,8 +121,9 @@ export default function Home() {
       </section>
 
       {/* section 2 qui qffiche les cqrtes des logements les plus populaires et hebergements en fonction de la localité choisie*/}
-      <div>
-        <section className=" flex flex-col mt-10 p-4 bg-gray-200 px-4">
+
+      <div className="flex flex-col gap-10 lg:flex-row">
+        <section className=" flex flex-col mt-10 p-4 bg-gray-200 pb-12">
           <div className="flex items-center justify-between px-4 mb-4">
             <h2 className="text-3xl font-bold">Les plus populaires</h2>
             <svg
@@ -140,11 +141,44 @@ export default function Home() {
               />
             </svg>
           </div>
-          <PopularityCards name={"Hôtel le soleil du matin"} prix={75} />
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 py-16">
+            <PopularityCards
+              name={"Hôtel le soleil du matin"}
+              prix={75}
+              stars={5}
+            />
+            <PopularityCards
+              name={"Hôtel le soleil du matin"}
+              prix={75}
+              stars={5}
+            />
+            <PopularityCards
+              name={"Hôtel le soleil du matin"}
+              prix={75}
+              stars={5}
+            />
+            <PopularityCards
+              name={"Hôtel le soleil du matin"}
+              prix={75}
+              stars={5}
+            />
+          </div>
         </section>
-        <section className="flex flex-col mt-10 p-4 bg-gray-200 px-4">
+        <section className="flex flex-col p-4 mt-10 pb-12 bg-gray-200">
           <h2 className="text-3xl font-bold">Hébergements à Marseille</h2>
+          <div className="grid grid-cols-1 place-items-center gap-4 py-10">
+          <PopularityCards
+              name={"Hôtel le soleil du matin"}
+              prix={75}
+              stars={5}
+            />
+          </div>
         </section>
+      </div>
+
+      {/* dernière section pour afficher  les activités */}
+      <div>
+
       </div>
       <footer></footer>
     </div>

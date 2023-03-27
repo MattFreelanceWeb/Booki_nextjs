@@ -3,9 +3,9 @@ import React from "react";
 import imgHotel from '../../assets/images/emile-guillemot-Bj_rcSC5XfE-unsplash.jpg'
 import Stars from "./Stars";
 
-type Props = {prix:number,name:string};
+type Props = {prix:number,name:string, stars:number};
 
-function PopularityCards({prix,name}: Props) {
+function PopularityCards({prix,name ,stars}: Props) {
 
   {/**pour que le compo soit mappable via une recup de donnée en fetch:  créer des props (que l'on recupère du fetch) src, alt, rate */}
 
@@ -17,7 +17,7 @@ function PopularityCards({prix,name}: Props) {
       <div className=" h-[150px] flex flex-col items-start justify-around ">
         <h3 className="text-xl font-bold">{name}</h3>
         <p className="text-lg">nuit à partir de {prix}<span>€</span></p>
-        <Stars rate={4}/>
+        <Stars rate={stars}/>
       </div>
     </div>
   );

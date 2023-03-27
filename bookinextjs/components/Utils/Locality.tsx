@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, use } from "react";
+import React, { useState, useEffect, useRef, ReactElement } from "react";
 import axios from 'axios'
 import { v4 as uuid_v4 } from "uuid";
 
@@ -7,18 +7,18 @@ type Props = {};
 function Locality({}: Props) {
 
   {/**regex pour match code postaux français */}
-  const postalCodeFr = /^(([0-8][0-9])|(9[0-5])|(2[ab]))[0-9]{3}$/ 
+  const postalCodeFr = /^(([0-8][0-9])|(9[0-5])|(2[ab]))[0-9]{3}$/
 
-  const input = useRef(null)
-  const cityInput = useRef(null)
+  const input = useRef<HTMLInputElement>(null)
+  const cityInput = useRef<HTMLSelectElement>(null)
 
-  const [city, setCity] = useState(null);
+  const [city, setCity] = useState('');
   const [isFetching, setIsFetching] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
 
 
-  const fetchCity = (item) => {
+  const fetchCity = (item:string) => {
     const baseUrl = `https://geo.api.gouv.fr/communes?codePostal=${item}&format=geojson`
     setIsFetching(true)
     axios.get(baseUrl)
@@ -33,13 +33,13 @@ function Locality({}: Props) {
       )
     } else {
       return(
-        result.features.map(item=>(<option key={uuid_v4()} value={`${item.properties.nom}`}>{item.properties.nom}</option>))
+        result.features.map(item =>(<option key={uuid_v4()} value={`${item.properties.nom}`}>{item.properties.nom}</option>))
       )
     }
     }
 
   useEffect(() => {
-   postalCodeFr.test(city)? fetchCity(city): console.log('nono')
+   postalCodeFr.test(city)&& fetchCity(city)
   }, [city])
   
 
